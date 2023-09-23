@@ -52,7 +52,10 @@ class StartPage(tk.Frame):
         welcome_text = tk.Label(self, text="Welcome to Bird Quiz!", font=("ariel", 30, "bold"))
         welcome_text.grid(row=0, column=0, sticky="nsew")
 
+        self.selected_difficulty = tk.IntVar()
+        self.selected_quiz_length = tk.IntVar()
         self.wildcard_entry = tk.StringVar()
+
         self.options = self.options_box()
         self.options.grid(row=1, column=0, sticky="nsew")
 
@@ -70,39 +73,32 @@ class StartPage(tk.Frame):
 
         diff_text = tk.Label(options_box, text="Difficulty:", font=("ariel", 15))
         diff_text.grid(row=0, column=0, sticky="nse")
-        diff_button_frame = tk.Frame(options_box)
-        diff_button_frame.grid_columnconfigure((0, 1, 2), weight=1)
-        diff_button_frame.grid_rowconfigure(0, weight=1)
-        diff_button_frame.grid(row=0, column=1, sticky="nsw")
-        diff_button1 = tk.Button(diff_button_frame, text="1", width=1, height=1, font=("ariel", 10, "bold"),
-                                 command=lambda: self.master.quiz.set_difficulty_level(1)).grid(row=0, column=0)
-        diff_button2 = tk.Button(diff_button_frame, text="2", width=1, height=1, font=("ariel", 10, "bold"),
-                                 command=lambda: self.master.quiz.set_difficulty_level(2)).grid(row=0, column=1)
-        diff_button3 = tk.Button(diff_button_frame, text="3", width=1, height=1, font=("ariel", 10, "bold"),
-                                 command=lambda: self.master.quiz.set_difficulty_level(3)).grid(row=0, column=2)
+        diff_option_frame = tk.Frame(options_box)
+        diff_option_frame.grid_columnconfigure((0, 1, 2), weight=1)
+        diff_option_frame.grid_rowconfigure(0, weight=1)
+        diff_option_frame.grid(row=0, column=1, sticky="nsw")
+        diff_slider = tk.Scale(options_box, variable=self.selected_difficulty, from_=1, to=3, orient=tk.HORIZONTAL)
+        diff_slider.grid(row=0, column=1, sticky="nsw")
 
         len_text = tk.Label(options_box, text="Quiz length:", font=("ariel", 15))
         len_text.grid(row=1, column=0, sticky="nse")
-        len_button_frame = tk.Frame(options_box)
-        len_button_frame.grid_columnconfigure((0, 1, 2), weight=1)
-        len_button_frame.grid_rowconfigure(0, weight=1)
-        len_button_frame.grid(row=1, column=1, sticky="nsw")
-        len_button1 = tk.Button(len_button_frame, text="10", width=1, height=1, font=("ariel", 10, "bold"),
-                                command=lambda: self.master.quiz.set_quiz_length(10)).grid(row=0, column=0)
-        len_button2 = tk.Button(len_button_frame, text="20", width=1, height=1, font=("ariel", 10, "bold"),
-                                command=lambda: self.master.quiz.set_quiz_length(20)).grid(row=0, column=1)
-        len_button3 = tk.Button(len_button_frame, text="30", width=1, height=1, font=("ariel", 10, "bold"),
-                                command=lambda: self.master.quiz.set_quiz_length(30)).grid(row=0, column=2)
+        len_option_frame = tk.Frame(options_box)
+        len_option_frame.grid_columnconfigure((0, 1, 2), weight=1)
+        len_option_frame.grid_rowconfigure(0, weight=1)
+        len_option_frame.grid(row=1, column=1, sticky="nsw")
+        len_slider = tk.Scale(options_box, variable=self.selected_quiz_length, from_=10, to=30, resolution=5, orient=tk.HORIZONTAL)
+        len_slider.grid(row=1, column=1, sticky="nsw")
 
         filter_text = tk.Label(options_box, text="Species filter:", font=("ariel", 15))
         filter_text.grid(row=2, column=0, sticky="nse")
-
-        filter_bar = tk.Entry(options_box, textvariable=self.wildcard_entry, highlightbackground="white")
+        filter_bar = tk.Entry(options_box, textvariable=self.wildcard_entry)
         filter_bar.grid(row=2, column=1, sticky="w")
 
         return options_box
 
     def start_quiz(self):
+        self.master.quiz.difficulty_level = self.selected_difficulty.get()
+        self.master.quiz.quiz_length = self.selected_quiz_length.get()
         self.master.quiz.wildcard_pattern = self.wildcard_entry.get()
         print("Starting new quiz")
         print("Difficulty:", self.master.quiz.difficulty_level)

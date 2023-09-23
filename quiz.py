@@ -141,13 +141,13 @@ class Quiz:
 
     def difficulty_filter(self):
         """
-        Difficulty level limits the species in the quiz to the n most common species by Atlas square count:
-            Level 1 -> 50 most common
-            Level 2 -> 150 most common
+        Difficulty level limits the species included in the quiz to the n most common species by Atlas square count:
+            Level 1 -> Top 33.3% most common
+            Level 2 -> Top 66.6% most common
             Level 3 -> All species
         """
-
-        min_square_count_ranks = {1: 50, 2: 150, 3: len(self.mystery_species_list)}
+        total_species_count = len(self.mystery_species_list)
+        min_square_count_ranks = {1: int(total_species_count/3), 2: int(total_species_count/3)*2, 3: len(self.mystery_species_list)}
         no_of_species = min_square_count_ranks[self.difficulty_level]
         self.mystery_species_list = sorted(self.mystery_species_list, key=lambda x: x.square_count, reverse=True)[:no_of_species]
         random.shuffle(self.mystery_species_list)

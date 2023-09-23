@@ -4,3 +4,4 @@ venv/
 __pycache__/
 utils/config.yaml
 .DS_Store
+testmain.py

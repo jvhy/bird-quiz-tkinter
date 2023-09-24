@@ -77,7 +77,7 @@ class StartPage(tk.Frame):
         diff_option_frame.grid_columnconfigure((0, 1, 2), weight=1)
         diff_option_frame.grid_rowconfigure(0, weight=1)
         diff_option_frame.grid(row=0, column=1, sticky="nsw")
-        diff_slider = tk.Scale(options_box, variable=self.selected_difficulty, from_=1, to=3, orient=tk.HORIZONTAL)
+        diff_slider = tk.Scale(options_box, variable=self.selected_difficulty, from_=1, to=5, orient=tk.HORIZONTAL)
         diff_slider.grid(row=0, column=1, sticky="nsw")
 
         len_text = tk.Label(options_box, text="Quiz length:", font=("ariel", 15))
